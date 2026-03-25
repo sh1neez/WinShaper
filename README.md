@@ -1,7 +1,7 @@
 # 🛠️ WinShaper
 
 <p align="center">
-  <img src="icon.svg" width="128" height="128" alt="WinShaper Logo">
+  <img src="icon.ico" width="128" height="128" alt="WinShaper Logo">
 </p>
 
 <p align="center">
@@ -59,7 +59,7 @@ git clone [https://github.com/sh1neez/WinShaper.git](https://github.com/sh1neez/
 # Navigate to the folder
 cd WinShaper
 
-# Install Fyne and dependencies
+# Install dependencies
 go mod download
 
 # Run the project
