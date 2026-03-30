@@ -17,7 +17,7 @@ func main() {
 	a := app.NewWithID("WinShaper")
 	w := a.NewWindow("WinShaper")
 	w.SetIcon(resourceIconIco)
-	w.Resize(fyne.NewSize(525, 550))
+	w.Resize(fyne.NewSize(500, 0))
 	w.SetFixedSize(true)
 
 	makeTitle := func(text string) *canvas.Text {
@@ -29,9 +29,15 @@ func main() {
 
 	// --- [ UI ELEMENTS ] ---
 
-	label := widget.NewLabel("WinShaper")
-	label.TextStyle.Bold = true
-	label.Alignment = fyne.TextAlignCenter
+	title := widget.NewLabel("WinShaper")
+	title.TextStyle.Bold = true
+	title.Alignment = fyne.TextAlignCenter
+
+	textSearchOnTaskbar := widget.NewLabel("Search on Taskbar")
+	textSearchOnTaskbar.TextStyle.Bold = true
+
+	textTaskbarAlignment := widget.NewLabel("Taskbar Alignment")
+	textTaskbarAlignment.TextStyle.Bold = true
 
 	checkDarkMode := widget.NewCheck("Enable Dark Mode", func(value bool) {
 		val := "1"
@@ -68,7 +74,7 @@ func main() {
 
 	checkArrow := widget.NewCheck("Remove Shortcut Arrows", func(value bool) {
 		if value {
-			exec.Command("reg", "add", `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons`, "/v", "29", "/t", "REG_SZ", "/d", `%windir%\System32\shell32.dll,51`, "/f").Run()
+			exec.Command("reg", "add", `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons`, "/v", "29", "/t", "REG_SZ", "/d", "", "/f").Run()
 		} else {
 			exec.Command("reg", "delete", `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons`, "/v", "29", "/f").Run()
 		}
@@ -102,6 +108,39 @@ func main() {
 	})
 	checkExt.Checked = isExtensionsShown()
 
+	searchSelect := widget.NewSelect([]string{"Hidden", "Icon Only", "Search Box"}, func(selected string) {
+		val := "1"
+		switch selected {
+		case "Hidden":
+			val = "0"
+		case "Icon Only":
+			val = "1"
+		case "Search Box":
+			val = "3"
+		}
+
+		exec.Command("reg", "add", `HKCU\Software\Microsoft\Windows\CurrentVersion\Search`, "/v", "SearchboxTaskbarMode", "/t", "REG_DWORD", "/d", val, "/f").Run()
+	})
+	searchSelect.SetSelected(getSearchMode())
+
+	alignSelect := widget.NewSelect([]string{"Left", "Center"}, func(selected string) {
+		val := "1"
+		if selected == "Left" {
+			val = "0"
+		}
+		exec.Command("reg", "add", `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, "/v", "TaskbarAl", "/t", "REG_DWORD", "/d", val, "/f").Run()
+	})
+	alignSelect.SetSelected(getTaskbarAlignment())
+
+	checkTaskView := widget.NewCheck("Hide Task View Button", func(value bool) {
+		val := "1"
+		if value {
+			val = "0"
+		}
+		exec.Command("reg", "add", `HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, "/v", "ShowTaskViewButton", "/t", "REG_DWORD", "/d", val, "/f").Run()
+	})
+	checkTaskView.Checked = isTaskViewHidden()
+
 	checkSeconds := widget.NewCheck("Show Seconds in System Clock", func(value bool) {
 		val := "0"
 		if value {
@@ -132,11 +171,16 @@ func main() {
 		checkHidden,
 		checkExt,
 		makeTitle("Taskbar"),
+		textSearchOnTaskbar,
+		searchSelect,
+		textTaskbarAlignment,
+		alignSelect,
+		checkTaskView,
 		checkSeconds,
 	)
 
 	w.SetContent(container.NewBorder(
-		label,
+		title,
 		buttonApply,
 		nil,
 		nil,

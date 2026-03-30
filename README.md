@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-  <strong>Shape Your Windows</strong><br>
-  A lightweight, modern Windows 11 tweaker built with Go. Personalize your OS with a Mica-inspired UI.
+  <strong>Shape Your Windows Experience.</strong><br>
+  A lightweight, modern Windows 11 tweaker built with Go. Fast, open-source, and clutter-free.
 </p>
 
 <p align="center">
@@ -21,46 +21,50 @@
 ---
 
 ## 📖 About
-**WinShaper** is a fast, safe, and open-source tool designed to fine-tune Windows 11. Forget bloated tweakers with outdated designs. WinShaper offers a sleek, modern interface powered by the **Fyne** toolkit and a robust set of features under the hood.
+**WinShaper** was born out of a desire for a cleaner Windows 11 experience without the overhead of heavy "optimizer" suites. It's a straightforward tool designed to put the most annoying Windows 11 UI choices back in your hands. 
 
-## ✨ Powerful Features
+Built using **Go** and the **Fyne** toolkit, it offers a native-feeling interface to modify registry settings safely and instantly.
 
-### ⚙️ System UI
-* **Dark Mode:** Toggle system-wide dark theme with one click.
-* **Classic Context Menu:** Restore the familiar Windows 10 right-click menu.
-* **Accent Colors:** Instantly change Windows selection and accent colors.
+## ✨ Features
 
-### 👁️ Desktop Clean
-* **Shortcut Arrows:** Remove the arrow overlay from desktop shortcuts.
-* **Recycle Bin:** Easily hide the Recycle Bin from your desktop.
+### ⚙️ System Customization
+* **Dark Mode:** Toggle system-wide dark/light themes instantly.
+* **Classic Context Menu:** Restore the Windows 10 style right-click menu (no more "Show more options" clicks).
+* **Custom Selection Color:** Use the advanced color picker to change the default Windows highlight and tracking colors.
 
-### 🎨 Taskbar & Explorer
-* **Taskbar Clock:** Show seconds in the system tray clock.
-* **File Extensions:** Quickly toggle visibility of file extensions.
-* **Hidden Files:** Show or hide hidden system files with ease.
+### 📂 Desktop & Explorer
+* **Shortcut Arrows:** Clean up your desktop by removing the arrow overlay from icons.
+* **Recycle Bin Management:** Hide or show the Recycle Bin icon with a single check.
+* **File Visibility:** Quickly toggle hidden files and file extensions without digging through folder options.
+
+### 📍 Taskbar Personalization
+* **Alignment Control:** Easily switch between Centered and Left-aligned icons.
+* **Search Modes:** Choose exactly how search appears—Hidden, Icon only, or the full Search Box.
+* **Task View Toggle:** Remove the Task View button to save space.
+* **Seconds in Clock:** Enable high-precision time by showing seconds in the system tray.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-1. Go to the **[Releases](https://github.com/sh1neez/WinShaper/releases)** section.
-2. Download the latest `WinShaper.exe`.
-3. Run as Administrator.
-4. Select your desired tweaks and click **Apply Changes**.
+1. Download the latest `WinShaper.exe` from the **[Releases](https://github.com/sh1neez/WinShaper/releases)** page.
+2. Run the application (Administrator privileges are required to modify registry keys).
+3. Select your preferred tweaks.
+4. Click **Apply Changes** — the app will automatically restart `explorer.exe` to refresh your UI.
 
-## 🛠️ Build from source
+## 🛠️ Build from Source
 
-To build the project yourself, you will need **Go 1.20+** and the **Fyne toolkit** installed.
+If you want to compile it yourself, make sure you have **Go 1.20+** and a C compiler (required by Fyne for graphics).
 
 ```bash
-# Clone the repository
+# Clone the repo
 git clone [https://github.com/sh1neez/WinShaper.git](https://github.com/sh1neez/WinShaper.git)
 
-# Navigate to the folder
+# Enter the directory
 cd WinShaper
 
-# Install dependencies
+# Install Go dependencies
 go mod download
 
-# Run the project
-go run main.go
+# Run the app
+go run .

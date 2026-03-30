@@ -73,6 +73,56 @@ func isExtensionsShown() bool {
 	return val == 0
 }
 
+func getSearchMode() string {
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Search`, registry.QUERY_VALUE)
+	if err != nil {
+		return "Icon Only"
+	}
+	defer k.Close()
+
+	val, _, err := k.GetIntegerValue("SearchboxTaskbarMode")
+	if err != nil {
+		return "Icon Only"
+	}
+
+	switch val {
+	case 0:
+		return "Hidden"
+	case 1:
+		return "Icon Only"
+	case 3:
+		return "Search Box"
+	default:
+		return "Icon Only"
+	}
+}
+
+func getTaskbarAlignment() string {
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, registry.QUERY_VALUE)
+	if err != nil {
+		return "Center"
+	}
+	defer k.Close()
+	val, _, err := k.GetIntegerValue("TaskbarAl")
+	if err != nil || val == 1 {
+		return "Center"
+	}
+	return "Left"
+}
+
+func isTaskViewHidden() bool {
+	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, registry.QUERY_VALUE)
+	if err != nil {
+		return false
+	}
+	defer k.Close()
+	val, _, err := k.GetIntegerValue("ShowTaskViewButton")
+	if err != nil {
+		return false
+	}
+	return val == 0
+}
+
 func isSecondsEnabled() bool {
 	k, err := registry.OpenKey(registry.CURRENT_USER, `Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced`, registry.QUERY_VALUE)
 	if err != nil {
